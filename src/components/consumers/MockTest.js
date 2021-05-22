@@ -16,6 +16,7 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
 
     const [submit, setSubmit] = useState(false);
     const [timeover, setTimeOver] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const questionBank = [
         {
@@ -69,16 +70,16 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
                 {'text': 'Punjab', 'isCorrect': false},
                 {'text': 'Uttar Pradesh', 'isCorrect': true},
                 {'text': 'West Bengal', 'isCorrect': false},
-                {'text': 'Facebook', 'isCorrect': false}
+                {'text': 'Maharashtra', 'isCorrect': false}
             ]
         },
         {
-            'question': 'What is the national language of India?',
+            'question': 'Which one of the following countries has the legal age of consensual sex at just 14 years old?',
             'answers': [
-                {'text': 'Hindi', 'isCorrect': false},
-                {'text': 'Sanskrit', 'isCorrect': false},
-                {'text': 'None', 'isCorrect': true},
-                {'text': 'English', 'isCorrect': false}
+                {'text': 'Pakistan', 'isCorrect': false},
+                {'text': 'France', 'isCorrect': false},
+                {'text': 'China', 'isCorrect': true},
+                {'text': 'Argentina', 'isCorrect': false}
             ]
         },
         {
@@ -111,12 +112,14 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
     ];
 
     const handleClick = () => {
+        setLoading(true);
         clearInterval(interval.current);
         interval.current = null;
         setSubmit(true);
     };
 
     const handleTimeout = () => {
+        setLoading(true);
         setTimeOver(true);
     }
 
@@ -183,7 +186,14 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
                 </ScrollPanel>
                 <div className="card p-mt-2">
                     <ProgressBar value={value1}></ProgressBar>
-                    <Button label="Submit Quiz" icon="pi pi-save" className="p-button-rounded p-button-success" onClick={handleClick} />
+                    <Button 
+                        label="Submit Quiz" 
+                        icon="pi pi-save" 
+                        className="p-button-rounded p-button-success" 
+                        loading={loading}
+                        loadingIcon={null}
+                        onClick={handleClick} 
+                    />
                 </div>
             </Dialog>
         </div>
