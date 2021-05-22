@@ -36,7 +36,7 @@ function App() {
           </Switch>
         </AuthProvider>
       </Router>
-      <div className="p-d-flex p-ai-center p-jc-center">
+      <div className="p-d-flex p-ai-center p-jc-center p-mt-4">
         <Chip label="Designed By Anish" icon="pi pi-user-edit" className="p-mr-2 p-mb-2" />
         <Chip label="Property Of Project SEQL" icon="pi pi-globe" className="p-mr-2 p-mb-2" />
       </div>

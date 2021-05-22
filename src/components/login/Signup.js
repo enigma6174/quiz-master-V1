@@ -66,7 +66,7 @@ const Signup = () => {
     }
 
     return (
-        <div className="p-d-flex p-ai-center p-jc-center" style={{ marginTop: '120px' }}>
+        <div className="p-d-flex p-ai-center p-jc-center" style={{ marginTop: '50px' }}>
             <Toast ref={toast} />
             <Card 
                 title={<p className="p-text-bold p-text-center">User Registration</p>} 

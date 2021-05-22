@@ -144,7 +144,7 @@ const QuizEvent = ({ quizObject }) => {
                 >
                     <h3>You Scored {parseInt(sessionStorage.getItem('score'))} Points!</h3>
                     <p>Thank you for attempting the quiz. You were not able to complete the quiz on time but rest assured, your current score has been added to the
-                        database. Who knows, maybe you will win the event tomorrow? For now you are done, grab a beer and chill!
+                        database. Who knows, maybe you will win the event? For now you are done, grab a beer and chill!
                     </p>
                 </Dialog>
                 <ScrollPanel style={{ width: '60%', height: '400px' }} className="custom">
