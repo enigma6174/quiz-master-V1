@@ -40,8 +40,7 @@ const QuizRules = () => {
             "body": (
                 <ul>
                     <li>
-                        The quiz is time based. There are 15 questions in all and you have a total of 200 seconds to attempt them. That's 3 minutes and 20 seconds
-                        for a 15 question quiz.
+                        The quiz is time based. There are 20 questions in all and you have a total of 200 seconds to attempt them. That's 10 seconds per question
                     </li>
                     <li>
                         Each question has only one correct answer. You only have to click the answer of your choice and proceed to other questions. Please note that 
@@ -59,7 +58,6 @@ const QuizRules = () => {
             "subtitle" : "A Quick Look At The Scoring Scheme",
             "body": "All questions have 10 points for correct answer. There is no negative marking. Also, there is only ONE correct answer per question." +
             " You can also choose to not attempt a question if you want and only answer a subset of the question bank." + 
-            " You are free to use Google or any other medium of your choice to find your answers but do so keeping the remaining time at hand." + 
             " Also, each person can attempt a quiz as many times as they want but only their first attempt will be taken into consideration."
         },
         {
@@ -88,16 +86,17 @@ const QuizRules = () => {
             "body": (
                 <ul>
                     <li>
-                        This is a regular button for the quiz which has not been clicked <Button className="p-button-info p-button-sm" label="Unpressed" />
-                    </li>
-                    <li>
-                        This is a diabled button for the quiz when it has been clicked 
-                        <Button className="p-button-secondary p-button-sm" loading={true} loadingIcon={null} label="Pressed" />
-                    </li>
-                    <li>
-                        Buttons in a question will get disabled when that question has been attempted. Exercise caution before answering a question as you will
+                        Buttons (i.e. the options for the given question) will get disabled when that question has been attempted. Exercise caution before answering a question as you will
                         not get the opportunity to modify your selection.
                     </li>
+                    <li>
+                        This is a regular button for the option which has not been clicked <Button className="p-button-info p-button-sm" label="Unpressed" />
+                    </li>
+                    <li>
+                        This is a diabled button when any of the 4 options been clicked 
+                        <Button className="p-button-secondary p-button-sm" loading={true} loadingIcon={null} label="Pressed" />
+                    </li>
+                    
                 </ul>
             )
         },
@@ -105,7 +104,7 @@ const QuizRules = () => {
             "title": "Mock Test",
             "subtitle": "A Quick Look At The Provided Mock Test",
             "body": "To ensure all our participants have a seamless experience with the quiz, we have provided a sample mock test that mimicks the quiz conditions." +
-            " There will be 10 questions in this mock test and you will have 30 seconds to answer them. Please make sure you attempt the mock test" + 
+            " There will be 10 questions in this mock test and you will have 75 seconds to answer them. Please make sure you attempt the mock test" + 
             " before you go to the actual quiz so that you are familiar with the platform.\n" +
             "There will be no scoring for the mock test and its purely for familiarity with platform and therefore, optional by nature."
         }

@@ -18,7 +18,7 @@ function Landing() {
 
     return (
         <div>
-            <div className="card p-d-flex p-ai-center p-jc-center p-dir-col" style={{ marginTop: '150px'}}>
+            <div className="card p-d-flex p-ai-center p-jc-center p-dir-col" style={{ marginTop: '80px'}}>
                 <h1>Welcome To Quiz Portal</h1>
                 <Splitter style={{ height: '320px', width: '50%' }} className="p-mb-5">
                     <SplitterPanel className="p-d-flex p-ai-center p-jc-center p-dir-col">
