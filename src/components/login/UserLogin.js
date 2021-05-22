@@ -54,7 +54,7 @@ const UserLogin = () => {
     }
 
     return (
-        <div className="p-d-flex p-ai-center p-jc-center" style={{ marginTop: '120px' }}>
+        <div className="p-d-flex p-ai-center p-jc-center" style={{ marginTop: '50px' }}>
             <Toast ref={toast} />
             <Card 
                 title={<p className="p-mb-3 p-text-bold p-text-center">User Login</p>} 
