@@ -99,13 +99,6 @@ const UserDashboard = () => {
 
     const prepareKnowledgeBank = () => {
 
-    //    axios.get('https://jsonplaceholder.typicode.com/posts')
-    //    .then(response => {
-    //        if (response.status === 200) {
-    //            console.log(response.data);
-    //        }
-    //    })
-
         firebaseDb.child('test_quiz').on('value', snapshot => {
             if (snapshot.val() != null) {
               const a = snapshot.val();
@@ -117,21 +110,9 @@ const UserDashboard = () => {
                       }
                   )
               })
-              console.log(buffer);
               setKnowledgeBank(buffer);
             }
         });
-
-        // const buffer = Object.keys(quizObject).map(item => {
-        //     return (
-        //         {
-        //             question: quizObject[item].question,
-        //             answers: quizObject[item].answers
-        //         }
-        //     )
-        // });
-
-        // setKnowledgeBank(buffer);
     }
 
     useEffect(() => {

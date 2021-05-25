@@ -11,6 +11,7 @@ import firebaseDb from '../../db/Firebase';
 import SingleAnswer from './SingleAnswer';
 import MultiAnswer from './MultiAnswer';
 import QuestionBank from './QuestionBank';
+import CreateQuiz from './CreateQuiz';
 
 
 const AdminDashboard = () => {
@@ -23,41 +24,73 @@ const AdminDashboard = () => {
    const [quizObject, setQuizObject] = useState({});
    const [resultObject, setResultObject] = useState({});
 
-   const [showSingleType, setSingleType] = useState(false);
-   const [showMultiType, setMultiType] = useState(false);
-   
    const [viewItem, setViewItem] = useState('');
+   const [questionType, setQuestionType] = useState('');
+
+   const [newQuiz, createNewQuiz] = useState(false);
+   const [newPoll, createNewPoll] = useState(false);
+   const [menuItemDisabled, setMenuItemDisabled] = useState(true);
+
 
    const items = [
       {
          label:'Create',
-         icon:'pi pi-fw pi-file',
+         icon:'pi pi-fw pi-plus',
          items:[
             {
-               label:'Question',
-               icon:'pi pi-fw pi-plus',
-               items:[
+               label:'Question Bank',
+               icon:'pi pi-fw pi-book',
+               items: [
                   {
-                     label:'Single Correct',
-                     icon:'pi pi-fw pi-check-circle',
+                     label: 'Quiz',
+                     icon: 'pi pi-fw pi-file',
                      command: () => {
-                        setMultiType(false);
-                        setSingleType(true);
+                        createNewQuiz(true);
                      }
                   },
                   {
-                     label:'Multi Correct',
-                     icon:'pi pi-fw pi-check-square',
+                     label: 'Poll',
+                     icon: 'pi pi-fw pi-users',
                      command: () => {
-                        setSingleType(false);
-                        setMultiType(true);
+                        createNewPoll(true);
                      }
-                  },
+                  }
                ]
             },
             {
-               label:'Question Bank',
-               icon:'pi pi-fw pi-book'
+               label:'Question',
+               icon:'pi pi-fw pi-question',
+               disabled: menuItemDisabled,
+               items: [
+                  {
+                     label: 'Single Answer Type',
+                     icon: 'pi pi-fw pi-check-circle',
+                     command: () => {
+                        setQuestionType('single');
+                     }
+                  },
+                  {
+                     label: 'Multi Answer Type',
+                     icon: 'pi pi-fw pi-check-square',
+                     command: () => {
+                        setQuestionType('multiple');
+                     }
+                  },
+                  {
+                     label: 'Numeric Answer Type',
+                     icon: 'pi pi-fw pi-percentage',
+                     command: () => {
+                        setQuestionType('integer');
+                     }
+                  },
+                  {
+                     label: 'True/False Type',
+                     icon: 'pi pi-fw pi-question-circle',
+                     command: () => {
+                        setQuestionType('boolean');
+                     }
+                  }
+               ]
             },
             {
                separator:true
@@ -73,91 +106,109 @@ const AdminDashboard = () => {
          icon:'pi pi-fw pi-pencil',
          items:[
             {
-               label:'Left',
-               icon:'pi pi-fw pi-align-left'
+               label:'Quiz',
+               icon:'pi pi-fw pi-file'
             },
             {
-               label:'Right',
-               icon:'pi pi-fw pi-align-right'
+               label:'Poll',
+               icon:'pi pi-fw pi-users'
             },
             {
-               label:'Center',
-               icon:'pi pi-fw pi-align-center'
-            },
-            {
-               label:'Justify',
-               icon:'pi pi-fw pi-align-justify'
-            },
-   
+               label:'Collection',
+               icon:'pi pi-fw pi-table'
+            }
          ]
       },
       {
-         label:'Users',
-         icon:'pi pi-fw pi-user',
+         label:'Delete',
+         icon:'pi pi-fw pi-trash',
          items:[
             {
-               label:'New',
-               icon:'pi pi-fw pi-user-plus',
+               label:'Quiz',
+               icon:'pi pi-fw pi-file',
    
             },
             {
-               label:'Delete',
-               icon:'pi pi-fw pi-user-minus',
-   
-            },
-            {
-               label:'Search',
+               label:'Poll',
                icon:'pi pi-fw pi-users',
-               items:[
-                  {
-                     label:'Filter',
-                     icon:'pi pi-fw pi-filter',
-                     items:[
-                        {
-                           label:'Print',
-                           icon:'pi pi-fw pi-print'
-                        }
-                     ]
-                  },
-                  {
-                     icon:'pi pi-fw pi-bars',
-                     label:'List'
-                  }
-               ]
+   
+            },
+            {
+               label:'Collection',
+               icon:'pi pi-fw pi-table',
             }
          ]
       },
       {
-         label:'Events',
-         icon:'pi pi-fw pi-calendar',
+         label:'View',
+         icon:'pi pi-fw pi-desktop',
          items:[
             {
-               label:'View',
-               icon:'pi pi-fw pi-table',
-               items:[
-                  {
-                     label:'Quiz Results',
-                     icon:'pi pi-fw pi-list',
-                     command: () => {
-                        setViewItem('quiz_results');
-                     }
-                  },
-                  {
-                     label:'Quiz Panel',
-                     icon:'pi pi-fw pi-question',
-                     command: () => {
-                        setViewItem('quiz_panel');
-                     }
-                  },
-   
-               ]
+               label:'Quiz Results',
+               icon:'pi pi-fw pi-list',
+               command: () => {
+                  setViewItem('quiz_results');
+               }, 
+            },    
+            {
+               label:'Quiz Panel',
+               icon:'pi pi-fw pi-question',
+               command: () => {
+                  setViewItem('quiz_panel');
+               }
             }
          ]
       },
       {
-         label: currentUser.email,
+         label: 'Events',
+         icon: 'pi pi-fw pi-calendar',
+         items: [
+            {
+               label: 'Quiz',
+               icon: 'pi pi-fw pi-file',
+               items: [
+                  {
+                     label: 'Concluded',
+                     icon: 'pi pi-fw pi-calendar-minus'
+                  },
+                  {
+                     label: 'Ongoing',
+                     icon: 'pi pi-fw pi-calendar-times'
+                  },
+                  {
+                     label: 'Upcoming',
+                     icon: 'pi pi-fw pi-calendar-plus'
+                  }
+               ],
+            },
+            {
+               label: 'Poll',
+               icon: 'pi pi-fw pi-users',
+               items: [
+                  {
+                     label: 'Closed',
+                     icon: 'pi pi-fw pi-ban'
+                  },
+                  {
+                     label: 'Voting',
+                     icon: 'pi pi-fw pi-bell'
+                  },
+                  {
+                     label: 'Scheduled',
+                     icon: 'pi pi-fw pi-clock'
+                  }
+               ],
+            }
+         ]
+      },
+      {
+         label: 'Admin',
          icon: 'pi pi-fw pi-user',
          items: [
+            {
+               label:'Settings',
+               icon:'pi pi-fw pi-cog',
+            },
             {
                label:'Logout',
                icon:'pi pi-fw pi-sign-out',
@@ -223,8 +274,8 @@ const AdminDashboard = () => {
 
    return (
       <React.Fragment>
-         <div className="p-grid">
-               <Menubar className="p-col-6 p-offset-3" model={items} />
+         <div className="p-grid p-d-flex p-ai-center p-jc-center">
+               <Menubar model={items} />
          </div>
 
          <div className="p-d-flex p-ai-center p-jc-center p-dir-col">
@@ -233,12 +284,14 @@ const AdminDashboard = () => {
 
          <Toast ref={toast} />
 
+         {newQuiz && <CreateQuiz displayBasic={newQuiz} setDisplayBasic={createNewQuiz} />}
+
          {viewItem === 'quiz_panel' &&
             <div className="card">
                <Splitter style={{ height: '540px' }} className="p-mb-5">
                   <SplitterPanel className="p-d-flex p-ai-center p-jc-center">
-                     {showSingleType && <SingleAnswer insertRecords={insertRecords} />}
-                     {showMultiType && <MultiAnswer insertRecords={insertRecords} />}
+                     {questionType === 'single' && <SingleAnswer insertRecords={insertRecords} />}
+                     {questionType === 'multiple' && <MultiAnswer insertRecords={insertRecords} />}
                   </SplitterPanel>
                   <SplitterPanel className="p-d-flex p-ai-center p-jc-center p-dir-col">
                      <ScrollPanel style={{ width: '85%', height: '500px' }} className="custom">
