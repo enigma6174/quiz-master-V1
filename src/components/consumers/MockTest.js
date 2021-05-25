@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Card } from 'primereact/card';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import { Paginator } from 'primereact/paginator';
 import { ProgressBar } from 'primereact/progressbar';
-import { ScrollPanel } from 'primereact/scrollpanel';
+import { RadioButton } from 'primereact/radiobutton';
 
 import QuizPane from '../consumers/MockQuizPane';
 
@@ -10,13 +12,6 @@ import QuizPane from '../consumers/MockQuizPane';
 export default function MockTest({ displayBasic, setDisplayBasic }) {
 
     const interval = useRef(null);
-
-    const [value1, setValue1] = useState(0);
-    const [score, updateScore] = useState(0);
-
-    const [submit, setSubmit] = useState(false);
-    const [timeover, setTimeOver] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const questionBank = [
         {
@@ -111,7 +106,35 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
         }  
     ];
 
-    const handleClick = () => {
+    const [value1, setValue1] = useState(0);
+    const [score, updateScore] = useState(0);
+    const [index, updateIndex] = useState(0);
+    const [rows, updateRows] = useState(1);
+
+    const [submit, setSubmit] = useState(false);
+    const [timeover, setTimeOver] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [selectedAnswer, setSelectedAnswer] = useState("");
+
+    const onPageChange = (event) => {
+        updateIndex(event.first);
+        updateRows(event.rows);
+    };
+
+    const handleAnswerSelect = (e) => {
+        setSelectedAnswer(e.value)
+        if (e.value['isCorrect']) {
+            updateScore(previous => previous + 10);
+        }
+    };
+
+    const footer = (
+        <div>
+            <Paginator first={index} rows={rows} totalRecords={10} onPageChange={(onPageChange)}></Paginator>
+        </div>
+    );
+
+    const handleSave = () => {
         setLoading(true);
         clearInterval(interval.current);
         interval.current = null;
@@ -143,7 +166,7 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
                 interval.current = null;
             }
         }
-    }, []);
+    }, [value1]);
 
     return (
         <div className="p-d-flex p-ai-center p-jc-center p-dir-col">
@@ -166,33 +189,39 @@ export default function MockTest({ displayBasic, setDisplayBasic }) {
             <Dialog 
                 header="Mock Test" 
                 visible={displayBasic} 
-                style={{ width: '80vw' }} 
+                style={{ width: '50vw' }} 
                 onHide={() => setDisplayBasic(false)}
             >
-                <ScrollPanel style={{ width: '65vw', height: '400px' }} className="custom">
-                {
-                    questionBank.map((item) => {
-                        return (
-                            <QuizPane 
-                                key={item}
-                                question={item.question} 
-                                answers={item.answers} 
-                                score={score}
-                                updateScore={updateScore}
-                            />
-                        )
-                    })
-                }
-                </ScrollPanel>
+                <Card
+                    id={questionBank[index]['question']} 
+                    title={questionBank[index]['question']} 
+                    style={{ width: '48vw', boxShadow: 'none' }} 
+                    footer={footer}>
+                    <p>
+                        {questionBank[index]['answers'].map((answer, i) => {
+                            return (
+                                <div key={answer['text']} className="p-field-radiobutton">
+                                    <RadioButton
+                                        inputId={answer['text']}
+                                        value={answer}
+                                        onChange={handleAnswerSelect}
+                                        checked={selectedAnswer['text'] === answer['text']}
+                                    />
+                                    <label htmlFor={answer['text']}>{answer['text']}</label>
+                                </div>
+                            )
+                        })}
+                    </p>
+                </Card>
                 <div className="card p-mt-2">
                     <ProgressBar value={value1}></ProgressBar>
                     <Button 
                         label="Submit Quiz" 
                         icon="pi pi-save" 
-                        className="p-button-rounded p-button-success" 
+                        className="p-button-rounded p-button-success p-d-flex p-ai-center p-jc-center" 
                         loading={loading}
                         loadingIcon={null}
-                        onClick={handleClick} 
+                        onClick={handleSave} 
                     />
                 </div>
             </Dialog>

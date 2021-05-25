@@ -129,7 +129,7 @@ const QuizRules = () => {
                 <Card 
                     title={rules[index].title}
                     subTitle={rules[index].subtitle}
-                    style={{ width: '65%', height: '400px' }}
+                    style={{ width: '65%', height: '400px', boxShadow: 'none' }}
                     footer={footer}
                 >
                     <ScrollPanel style={{ height: '320px' }}>

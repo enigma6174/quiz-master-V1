@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
 
-import { Link } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -14,14 +14,14 @@ import { useAuth } from '../../contexts/AuthContext';
 const Signup = () => {
 
     const { signup } = useAuth();
-
+    const history = useHistory();
     const toast = useRef(null);
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const showSuccess = () => {
         toast.current.show({severity: 'success', closable: false, summary: 'Success', detail: 'User Created Successfully', life: 3000});
@@ -32,37 +32,31 @@ const Signup = () => {
     };
 
     const footer = (
-        <div>
-            <div className="p-mb-2">
-                Already have an account? <Link to='/user_login'>Login</Link>
-            </div>
-            <div>
-                Please check out the detailed rules about the MCQ <Link to='/quiz_rules'>Here</Link>
-            </div>
+        <div className="p-mb-2">
+            Already have an account? <Link to='/user_login'>Login</Link>
         </div>
-    )
+    );
 
     async function handleSubmit() {
 
         if (password !== passwordConfirm) {
-            return setError(true)
+            return setError(true);
         }
 
         try {
-            setError(false)
-            setLoading(true)
-            await signup(email, password)
-            showSuccess()
-            setEmail('')
-            setPassword('')
-            setPasswordConfirm('')
+            setError(false);
+            setLoading(true);
+            await signup(email, password);
+            showSuccess();
+            setEmail('');
+            setPassword('');
+            setPasswordConfirm('');
+            history.push('/user_login');
         } 
         catch {
-            showError()
+            showError();
         }
-
-        setLoading(false)
-
+        setLoading(false);
     }
 
     return (

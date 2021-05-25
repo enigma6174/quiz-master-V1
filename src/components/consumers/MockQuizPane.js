@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Card } from 'primereact/card';
 import { Fieldset } from 'primereact/fieldset';
 import { Button } from 'primereact/button';
 
@@ -16,19 +17,21 @@ const MockQuizPane = ({ question, answers, score, updateScore }) => {
             sessionStorage.setItem("dummyscore", currentScore);
         }
         setLoading(true);
+        console.log(e.id);
     }
 
     return (
         <div>
             <div className="card p-mb-4 fieldset">
-                <Fieldset legend={question} toggleable style={{ width: '85%' }}>
+                <Card title={question}>
                     <p>
                        {answers.map((answer) => {
                             return(
                                 <Button 
                                     key={answer['text']}
-                                    label={answer['text']} 
-                                    className={!loading ? "p-button-info p-button-sm" : "p-button-secondary p-button-sm"} 
+                                    id={answer['text']}
+                                    label={answer['text']}
+                                    className={!loading ? "p-button-outlined p-button-sm" : "p-button-sm"} 
                                     onClick={() => handleClick(answer['isCorrect'])}
                                     loading={loading}
                                     loadingIcon={null}
@@ -36,7 +39,7 @@ const MockQuizPane = ({ question, answers, score, updateScore }) => {
                             );
                         })}
                     </p>
-                </Fieldset>
+                </Card>
             </div>
         </div>
     );

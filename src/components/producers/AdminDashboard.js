@@ -3,7 +3,6 @@ import { Toast } from 'primereact/toast';
 import { Menubar } from 'primereact/menubar';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { Splitter, SplitterPanel } from 'primereact/splitter';
-import { Chip } from 'primereact/chip';
 import { useHistory } from 'react-router-dom';
 
 
@@ -179,7 +178,7 @@ const AdminDashboard = () => {
    }
 
    const showLogoutError = () => {
-   toast.current.show({severity: 'error', closable: false, summary: 'Error', detail: 'There was a logout error', life: 3000});
+      toast.current.show({severity: 'error', closable: false, summary: 'Error', detail: 'There was a logout error', life: 3000});
    }
 
    async function handleLogout() {

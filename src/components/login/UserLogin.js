@@ -76,7 +76,7 @@ const UserLogin = () => {
                         </span>
                     </div>
                     <div className="p-col-fixed">
-                        <Button style={{ width: '340px' }} className="p-button-sm" label="Start Quiz" loading={loading} onClick={handleSubmit} />
+                        <Button style={{ width: '340px' }} className="p-button-sm" label="Login" loading={loading} onClick={handleSubmit} />
                     </div>
                 </div>
             </Card>
